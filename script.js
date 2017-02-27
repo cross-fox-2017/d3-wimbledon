@@ -46,8 +46,6 @@ let redraw = (dataset) => {
   const yAxis = d3.axisLeft(yScale)
   const xAxis = d3.axisBottom(xScale).ticks(dataset.length, 's')
 
-
-
   let multiplier = height / goal
 
   svg.selectAll('rect')
@@ -61,6 +59,10 @@ let redraw = (dataset) => {
     .attr('y', (d) => {
       return yScale(d)
     })
+    .transition()
+    .duration(750)
+    .ease(d3.easeLinear)
+    .delay(500)
     .attr('width', width / dataset.length - 3)
     .attr('height', (d) => {
       return height - yScale(d)
