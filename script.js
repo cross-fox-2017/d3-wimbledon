@@ -89,22 +89,32 @@ var xAxis = d3.axisBottom(xScale).ticks(score.length,'s')
     .attr('x', (d, i) => {
       return  xScale(i)
     })
+    .attr('y', (d, i) => {
+      return height
+    })
+    .attr('width', width / score.length - 3 )
+    .attr("height", 0)
+    .transition()
+		.duration(200)
     .attr('y', (d) => {
       return yScale(d)
     })
-    .transition()
-    .style("fill", "blue")
-    .delay(2000)
-    .attr('width', width / score.length - 3 )
     .attr('height', (d) => {
       return height - yScale(d)
     })
 
 
 
+
+
+
+
+
+
     svg.append('g')
-    .attr('transform','rotate(0)')
+    .attr('transform', 'rotate(0)')
     .call(yAxis)
+
 
     svg.append('g')
     .attr('transform',`translate(0,${height})`)
