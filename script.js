@@ -5,6 +5,7 @@ const width = 750;
 const height = 300;
 const margin = 20;
 const marginLeft = 40;
+const multiplier = 40;
 
 // Drawing area
 let svg = d3.select('#results')
@@ -24,21 +25,27 @@ let reload = () => {
 }
 
 // redraw function
-let redraw = (data) => {
+let redraw = (datas) => {
+  const yScale = d3.scaleLinear()
+    .domain([0, 5])
+    .range([0, height])
+  const xScale = d3.scaleLinear()
+    .domain([0, datas.length])
+    .range([0, width])
   svg.selectAll('rect')
-    .data(data)
+    .data(datas)
     .enter()
     .append('rect')
     .attr('class', 'bar')
-    .attr('x', (data, i) => {
-      return i * 22
+    .attr('x', (data, index) => {
+      return xScale(index)
     })
     .attr('y', (data) => {
-      return 300 - data
+      return height - yScale(data)
     })
-    .attr('width', 20)
+    .attr('width', (width/datas.length)-2)
     .attr('height', (data) => {
-      return data
+      return yScale(data)
     })
 }
 
