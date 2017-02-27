@@ -11,6 +11,8 @@ let svg = d3.select('#results')
   .append('svg')
   .attr('width', width)
   .attr('height', height)
+  .style('background',"#cacaca")
+  .style('padding','30px')
 
 // Data reloading
 let reload = () => {
@@ -29,18 +31,22 @@ let redraw = (data) => {
   }
 
 
+
   // draw data score into html
 
   // for scaling
   // for scaling y
   var yScale = d3.scaleLinear()
-      .domain([0, d3.max(score)])
+      .domain([d3.max(score),0])
       .range([0, height])
   // for scaling x
   var xScale = d3.scaleLinear()
       .domain([0, score.length])
       .range([0, width])
 
+
+var yAxis = d3.axisLeft(yScale)
+var xAxis = d3.axisBottom(xScale).ticks(score.length,'s')
   // manual
   // svg.selectAll('rect')
   //   .data(score)
@@ -59,6 +65,22 @@ let redraw = (data) => {
   //   })
 
   // using sclae
+  // svg.selectAll('rect')
+  //   .data(score)
+  //   .enter()
+  //   .append('rect')
+  //   .attr('class', 'bar')
+  //   .attr('x', (d, i) => {
+  //     return  xScale(i)
+  //   })
+  //   .attr('y', (d) => {
+  //     return yScale(d)
+  //   })
+  //   .attr('width', width / score.length - 3 )
+  //   .attr('height', (d) => {
+  //     return height - yScale(d)
+  //   })
+
   svg.selectAll('rect')
     .data(score)
     .enter()
@@ -68,12 +90,25 @@ let redraw = (data) => {
       return  xScale(i)
     })
     .attr('y', (d) => {
-      return height - yScale(d)
-    })
-    .attr('width', 15)
-    .attr('height', (d) => {
       return yScale(d)
     })
+    .transition()
+    .style("fill", "blue")
+    .delay(2000)
+    .attr('width', width / score.length - 3 )
+    .attr('height', (d) => {
+      return height - yScale(d)
+    })
+
+
+
+    svg.append('g')
+    .attr('transform','rotate(0)')
+    .call(yAxis)
+
+    svg.append('g')
+    .attr('transform',`translate(0,${height})`)
+    .call(xAxis)
 
 }
 
