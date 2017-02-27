@@ -48,19 +48,19 @@ let redraw = (data) => {
       return d * multiplier
     })
 
-  var axisScale = d3.scaleLinear()
+  var axisScaleX = d3.scaleLinear()
     .domain([0, data.length])
     .range([0, 745])
 
-  var axisScale2 = d3.scaleLinear()
+  var axisScaleY = d3.scaleLinear()
     .domain([4, 0])
     .range([0, 280])
 
-  var xAxis = d3.axisBottom(axisScale)
-    .ticks(20, 's')
+  var xAxis = d3.axisBottom(axisScaleX)
+    .ticks(20)
 
-  var yAxis = d3.axisLeft(axisScale2)
-    .ticks(10, 'f')
+  var yAxis = d3.axisLeft(axisScaleY)
+    .ticks(10)
 
   var xAxisGroup = svg.append('g')
     .attr('transform', 'translate(0,300)')
@@ -69,6 +69,11 @@ let redraw = (data) => {
   var xAxisGroup2 = svg.append('g')
     .attr('transform', 'translate(0,0)')
     .call(yAxis)
+
+  d3.select('body').transition()
+    .delay(750)
+    .each('start', function () { d3.select(this).style('color', 'green'); })
+    .style('color', 'red')
 }
 
 reload()
