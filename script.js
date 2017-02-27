@@ -22,22 +22,21 @@ let reload = () => {
 
 // redraw function
 let redraw = (data) => {
-  // data pashing from reload function
-  console.log("data");
-  console.log(data);
   // data convert to score and assing into socre
   var score = [];
   for (var i = 0; i < data.length; i++) {
     score[i] = Number(data[i].GoalsScored)
   }
-  console.log(score);
+
 
   // draw data score into html
 
+  // for scaling
+  // for scaling y
   var yScale = d3.scaleLinear()
-      .domain([0, d3.max([score])])
+      .domain([0, d3.max(score)])
       .range([0, height])
-
+  // for scaling x
   var xScale = d3.scaleLinear()
       .domain([0, score.length])
       .range([0, width])
@@ -66,11 +65,9 @@ let redraw = (data) => {
     .append('rect')
     .attr('class', 'bar')
     .attr('x', (d, i) => {
-      console.log(i);
-      xScale(i)
+      return  xScale(i)
     })
     .attr('y', (d) => {
-      console.log("data");
       return height - yScale(d)
     })
     .attr('width', 15)
