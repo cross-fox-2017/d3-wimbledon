@@ -36,7 +36,7 @@ let redraw = (database) => {
   // console.log(width/database.length);
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(database)])
-        .range([0, 300])
+        .range([0, height])
 
 
     svg.selectAll('rect')
@@ -48,7 +48,7 @@ let redraw = (database) => {
             return i * width/database.length
         })
         .attr('y', (d) => {
-            return 300 - yScale(d)
+            return height - yScale(d)
         })
         .attr('width', width/database.length)
         .attr('height', (d) => {
