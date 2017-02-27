@@ -12,6 +12,8 @@ let svg = d3.select('#results')
   .append('svg')
   .attr('width', width)
   .attr('height', height)
+  .style('background-color', 'grey')
+  .attr('fill', 'black')
 
 // Data reloading
 let reload = () => {
@@ -47,6 +49,15 @@ let redraw = (datas) => {
     .attr('height', (data) => {
       return yScale(data)
     })
+
+    var xAxis = d3.axisBottom(xScale)
+      .ticks(20)
+
+    svg.append('g')
+      .attr('transform', 'translate(0, 280)')
+      .call(xAxis)
 }
+
+
 
 reload()
