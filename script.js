@@ -5,7 +5,6 @@ const width = 750;
 const height = 300;
 const margin = 20;
 const marginLeft = 40;
-const multiplier = 40;
 
 // Drawing area
 let svg = d3.select('#results')
@@ -14,6 +13,7 @@ let svg = d3.select('#results')
   .attr('height', height)
   .style('background-color', 'grey')
   .attr('fill', 'black')
+  .style('margin', margin)
 
 // Data reloading
 let reload = () => {
@@ -29,33 +29,44 @@ let reload = () => {
 // redraw function
 let redraw = (datas) => {
   const yScale = d3.scaleLinear()
-    .domain([0, 5])
+    .domain([4.5, 0])
     .range([0, height])
   const xScale = d3.scaleLinear()
     .domain([0, datas.length])
-    .range([0, width])
+    .range([25, width-10])
   svg.selectAll('rect')
     .data(datas)
     .enter()
     .append('rect')
-    .attr('class', 'bar')
+    .attr('width', (width/datas.length)-2)
     .attr('x', (data, index) => {
       return xScale(index)
     })
     .attr('y', (data) => {
+      return height -20
+    })
+    .transition()
+    .duration(2000)
+    .delay(function (data, index) {
+				return index * 50;
+			})
+    .attr('class', 'bar')
+    .attr('height', (data) => {
       return height - yScale(data)
     })
-    .attr('width', (width/datas.length)-2)
-    .attr('height', (data) => {
-      return yScale(data)
+    .attr('y', (data) => {
+      return yScale(data)-20
     })
 
     var xAxis = d3.axisBottom(xScale)
-      .ticks(20)
-
+      .ticks(datas.length)
     svg.append('g')
       .attr('transform', 'translate(0, 280)')
       .call(xAxis)
+    var yAxis = d3.axisLeft(yScale)
+    svg.append('g')
+      .attr('transform', 'translate(25, -20)')
+      .call(yAxis)
 }
 
 
